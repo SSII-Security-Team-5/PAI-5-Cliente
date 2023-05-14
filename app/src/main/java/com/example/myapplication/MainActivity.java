@@ -38,7 +38,7 @@ import java.util.Scanner;
 public class MainActivity extends AppCompatActivity {
 
     // Setup Server information
-    protected static String server = "192.168.1.12";
+    protected static String server = "192.168.1.72";
     protected static int port = 7070;
 
     @Override
@@ -146,6 +146,11 @@ public class MainActivity extends AppCompatActivity {
                 sig.initSign(clavePrivada);
                 sig.update(msg.getBytes());
                 byte[] firma = sig.sign();
+
+                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+                    String publicK = java.util.Base64.getEncoder().encodeToString(clavePublica.getEncoded());
+                    System.out.println(publicK);
+                }
 
                 out.println(msg + "@" + firma + "@" + Base64.encode(clavePublica.getEncoded(), 0));
 
